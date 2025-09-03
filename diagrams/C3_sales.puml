@@ -1,0 +1,30 @@
+@startuml C3_SalesModule
+title C3: Component Diagram — Sales Module
+
+package "Sales Module" {
+    [Transaction Processing Component] as TransProc
+    [Reporting Component] as ReportComp
+    [Product Link Component] as ProductLink
+    [Payment Processing Component] as PaymentProc
+}
+
+' Internal interactions
+TransProc --> ProductLink : fetch product info
+TransProc --> PaymentProc : process payment
+TransProc --> ReportComp : send transaction data
+ProductLink --> ReportComp : send updated product data
+
+' External interactions
+actor "Employee" as Staff
+actor "Customer" as Customer
+actor "Reporting Module" as ReportMod
+actor "Menu Module" as MenuMod
+actor "CRM Module" as CRMMod
+
+Staff --> TransProc : record sales
+Customer --> TransProc : purchase products
+MenuMod --> ProductLink : menu updates
+CRMMod --> TransProc : customer data
+ReportComp --> ReportMod : consolidated sales reports
+
+@enduml

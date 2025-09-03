@@ -1,0 +1,32 @@
+@startuml C2_CoffeeChainERP
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+' Define the system
+System_Boundary(s1,"Coffee Chain ERP") {
+    Container(outletMod, "Outlet Management", "Web App", "Manages outlet details and managers")
+    Container(salesMod, "Sales Module", "Web App", "Captures sales transactions and links to menu")
+    Container(crmMod, "CRM Module", "Web App", "Tracks customer leads and interactions")
+    Container(menuMod, "Menu Module", "Web App", "Manages menu items, categories, and prices")
+    Container(reportMod, "Reporting & Analytics", "Web App", "Provides dashboards and performance reports")
+}
+
+' Actors
+Person(om, "Outlet Manager")
+Person(rm, "Regional Manager")
+Person(emp, "Employee")
+Person(cust, "Customer")
+
+' Interactions
+om --> outletMod : manages outlet info
+rm --> reportMod : views dashboards
+emp --> salesMod : records sales
+cust --> salesMod : places orders
+
+salesMod --> menuMod : fetch product info
+salesMod --> crmMod : send customer data
+outletMod --> reportMod : outlet performance data
+salesMod --> reportMod : sales reports
+crmMod --> reportMod : lead & engagement metrics
+
+@enduml

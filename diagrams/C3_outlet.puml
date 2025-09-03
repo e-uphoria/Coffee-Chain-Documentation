@@ -1,0 +1,28 @@
+@startuml C3_OutletModule
+title C3: Component Diagram — Outlet Module
+
+package "Outlet Module" {
+    [Outlet Information Component] as OutletInfo
+    [Manager Assignment Component] as ManagerAssign
+    [Regional Oversight Component] as RegionalOversight
+    [Performance Metrics Component] as Performance
+}
+
+' Internal interactions
+OutletInfo --> ManagerAssign : provide outlet data
+ManagerAssign --> RegionalOversight : send manager info
+OutletInfo --> Performance : provide operational data
+ManagerAssign --> Performance : send manager assignments
+
+' External interactions
+actor "Outlet Manager" as OManager
+actor "Regional Manager" as RManager
+actor "Sales Module" as SalesMod
+actor "Reporting Module" as ReportMod
+
+OManager --> OutletInfo : update outlet data
+RManager --> RegionalOversight : review outlet performance
+SalesMod --> Performance : send sales data
+Performance --> ReportMod : consolidated metrics
+
+@enduml

@@ -1,0 +1,27 @@
+@startuml C3_MenuModule
+title C3: Component Diagram — Menu Module
+
+package "Menu Module" {
+    [Product Management Component] as ProductMgmt
+    [Category Management Component] as CategoryMgmt
+    [Price & Variant Component] as PriceVariant
+    [Menu Sync Component] as MenuSync
+}
+
+' Internal interactions
+ProductMgmt --> CategoryMgmt : assign categories
+ProductMgmt --> PriceVariant : define prices/variants
+ProductMgmt --> MenuSync : sync products to sales
+CategoryMgmt --> MenuSync : send category info
+PriceVariant --> MenuSync : send pricing info
+
+' External interactions
+actor "Back-Office Staff" as Staff
+actor "Sales Module" as SalesMod
+actor "CRM Module" as CRMMod
+
+Staff --> ProductMgmt : create/update products
+SalesMod --> MenuSync : receive menu updates
+CRMMod --> MenuSync : use menu preferences for offers
+
+@enduml

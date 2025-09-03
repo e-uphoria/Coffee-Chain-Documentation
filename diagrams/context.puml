@@ -1,0 +1,32 @@
+@startuml Context_CoffeeChainERP
+title C1: System Context — Coffee Chain ERP
+
+actor Customer
+actor Barista as CounterStaff
+actor "Back-Office Staff" as BackOffice
+actor Manager
+
+rectangle "Coffee Chain Platform" {
+  rectangle "POS (Counter & Online Sales)" as POS
+  rectangle CRM
+  rectangle "Accounting / Invoicing" as ACC
+  rectangle "Inventory / Warehouse" as INV
+}
+
+' Interactions
+Customer --> POS : place orders / payment
+CounterStaff --> POS : take orders, prepare, handover
+BackOffice --> CRM : manage leads, customer info
+BackOffice --> ACC : reconcile, generate reports
+BackOffice --> INV : stock replenishment, operations
+Manager --> ACC : view reports / KPIs
+Manager --> CRM : view customer / lead dashboards
+
+POS --> CRM : send transaction & customer data
+POS --> ACC : send sales info for invoicing
+POS --> INV : update stock per order
+
+CRM --> ACC : provide account/partner info
+INV --> ACC : provide COGS & valuation
+
+@enduml

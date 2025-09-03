@@ -1,0 +1,115 @@
+\chapter{Access Rights and User Roles in Coffee Chain ERP System}
+
+\section*{Introduction}
+Access control is a fundamental aspect of any ERP system. It ensures that users can only access data and perform actions according to their responsibilities. This chapter explains the concept of access rights, user roles, and how they are implemented in Odoo. Finally, it details the specific access rights configured for the Coffee Chain ERP system based on its code.
+
+\section*{General Concepts: Access Rights and User Roles}
+\begin{description}
+    \item[Access Rights:] Define what operations a user can perform on data. These typically include:
+        \begin{itemize}
+            \item \textbf{Read:} View records.
+            \item \textbf{Write:} Edit existing records.
+            \item \textbf{Create:} Add new records.
+            \item \textbf{Delete / Unlink:} Remove records.
+        \end{itemize}
+    \item[User Roles:] Groupings of users with similar responsibilities. A role determines which models and actions a user can access.
+    \item[Role-Based Access Control (RBAC):] Common model where access is granted based on the user’s role rather than individual permissions.
+\end{description}
+
+
+\section*{Access Control in Odoo}
+In Odoo, access rights are managed using:
+\begin{itemize}
+    \item \textbf{Groups:} Collections of users sharing the same role.
+    \item \textbf{Models:} Entities like \texttt{res.partner}, \texttt{sale.order}, or \texttt{coffee.menu.item}.
+    \item \textbf{Permissions:} Defined in \texttt{ir.model.access.csv}, specifying read, write, create, and delete rights for a group on a model.
+\end{itemize}
+
+Each record operation in Odoo checks:
+\begin{enumerate}
+    \item Whether the user belongs to a group with the necessary permission.
+    \item Whether the record is accessible under record rules (not covered in this chapter but relevant for finer control).
+\end{enumerate}
+
+\section*{User Roles in Coffee Chain ERP System}
+The Coffee Chain ERP system defines the following primary user roles:
+
+\begin{itemize}
+    \item \textbf{Outlet User:} Staff who manage outlet operations, including sales orders, POS transactions, accounting entries, and menu items.
+    \item \textbf{CRM User:} Staff who manage CRM leads and related customer interactions.
+    \item \textbf{Help User:} Users who only need read access to help documents and guides.
+\end{itemize}
+
+These roles are implemented in Odoo using groups such as \texttt{base.group.user} and custom groups defined in the modules.
+
+\section*{Access Rights for Coffee Chain ERP System}
+The following table presents a matrix of access rights for the models in the system, derived from the \texttt{ir.model.access.csv} files in the modules:
+
+% Table 1: ID, Name, Model
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{6cm}|p{6cm}|p{5cm}|}
+\hline
+\textbf{ID} & \textbf{Name} & \textbf{Model} \\
+\hline
+access\_coffee\_outlet\_user & access.coffee.outlet.user & coffee.outlet \\
+access\_crm\_lead\_inherit\_user & access.crm.lead.inherit.user & crm.lead \\
+access\_res\_partner\_inherit\_user & access.res.partner.inherit.user & res.partner \\
+access\_coffee\_help\_user & access.coffee.help.user & coffee.help \\
+access\_coffee\_crm\_help\_user & access.coffee.crm.help.user & coffee.crm.help \\
+access\_coffee\_sales\_help\_user & access.coffee.sales.help.user & coffee.sales.help \\
+access\_sale\_order\_outlet\_user & access.sale.order.outlet.user & sale.order \\
+access\_sale\_order\_line\_coffee\_user & access.sale.order.line.coffee.user & sale.order.line \\
+access\_account\_move\_outlet\_user & access.account.move.outlet.user & account.move \\
+access\_account\_payment\_outlet\_user & access.account.payment.outlet.user & account.payment \\
+access\_pos\_config\_outlet & access.pos.config.outlet & pos.config \\
+access\_pos\_order\_outlet\_user & access.pos.order.outlet.user & pos.order \\
+access\_pos\_order\_line\_outlet\_user & access.pos.order.line.outlet.user & pos.order.line \\
+access\_coffee\_menu\_item\_user & access.coffee.menu.item & coffee.menu.item \\
+access\_coffee\_menu\_tag\_user & access.coffee.menu.tag & coffee.menu.tag \\
+\hline
+\end{tabular}
+
+\end{table}
+
+% Table 2: Model continuation
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{5cm}|p{4cm}|c|c|c|c|c|}
+\hline
+\textbf{Model} & \textbf{Group} & \textbf{Read} & \textbf{Write} & \textbf{Create} & \textbf{Delete} \\
+\hline
+coffee.outlet & base.group.user & 1 & 1 & 1 & 1 \\
+crm.lead & base.group.user & 1 & 1 & 1 & 1 \\
+res.partner & base.group.user & 1 & 1 & 1 & 1 \\
+coffee.help & — & 1 & 0 & 0 & 0 \\
+coffee.crm.help & — & 1 & 0 & 0 & 0 \\
+coffee.sales.help & — & 1 & 0 & 0 & 0 \\
+sale.order & — & 1 & 1 & 1 & 1 \\
+sale.order.line & — & 1 & 1 & 1 & 1 \\
+account.move & — & 1 & 1 & 1 & 1 \\
+account.payment & — & 1 & 1 & 1 & 1 \\
+pos.config & base.group.user & 1 & 1 & 0 & 0 \\
+pos.order & base.group.user & 1 & 1 & 1 & 1 \\
+pos.order.line & base.group.user & 1 & 1 & 1 & 1 \\
+coffee.menu.item & — & 1 & 1 & 1 & 1 \\
+coffee.menu.tag & — & 1 & 1 & 1 & 1 \\
+\hline
+\end{tabular}
+\caption{User Access Rights Matrix for Coffee Chain ERP System}
+\end{table}
+
+
+
+
+\section*{Explanation of Key Permissions}
+\begin{itemize}
+    \item Outlet-related models (\texttt{coffee.outlet}, \texttt{sale.order}, \texttt{pos.order}, etc.) have full CRUD access for staff responsible for operations.
+    \item CRM models (\texttt{crm.lead}) allow full management for CRM users.
+    \item Help-related models (\texttt{coffee.help}, \texttt{coffee.crm.help}, \texttt{coffee.sales.help}) are read-only to prevent modification by general users.
+    \item POS configuration (\texttt{pos.config}) is restricted from creation to avoid accidental setups.
+    \item Coffee menu items and tags can be fully managed by outlet staff to ensure menu updates.
+\end{itemize}
+
+
+This chapter explains general concepts of access rights and user roles, how they are implemented in Odoo, and the specific permissions configured for the Coffee Chain ERP system. The matrix provides a clear reference for developers, system administrators, and auditors to understand role-based access control within the system.

@@ -1,0 +1,28 @@
+@startuml C3_CRMModule
+title C3: Component Diagram — CRM Module
+
+package "CRM Module" {
+    [Lead Management Component] as Leads
+    [Customer Interaction Component] as CustomerInt
+    [Customer Segmentation Component] as Segmentation
+    [CRM Reporting Component] as CRMReport
+}
+
+' Internal interactions
+Leads --> CustomerInt : feed customer interactions
+CustomerInt --> Segmentation : update customer groups
+Leads --> CRMReport : send lead data
+CustomerInt --> CRMReport : send interaction logs
+
+' External interactions
+actor "Marketing Staff" as Marketing
+actor "Sales Staff" as Sales
+actor "Reporting Module" as ReportMod
+actor "Menu Module" as MenuMod
+
+Marketing --> Leads : input leads
+Sales --> CustomerInt : log interactions
+MenuMod --> CustomerInt : associate menu preferences
+CRMReport --> ReportMod : provide CRM insights
+
+@enduml

@@ -1,0 +1,80 @@
+\documentclass[12pt]{report}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[utf8]{inputenc}
+\usepackage{array}
+\usepackage{lipsum}
+\usepackage{wrapfig}
+\usepackage{tabularx}
+
+% Configure header
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+% Customize sections
+\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter.}{2pc}{}
+\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+
+% Hyperref colors
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=blue
+}
+
+% Title page details
+\title{
+    \textbf{\Huge Coffee Chain ERP Manual} \\
+    \Large \textit{Managing Outlets, Sales, CRM, and Menu Items with Odoo}
+}
+\author{
+    \large Author: Nush Ojha
+}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+
+\chapter*{Preface}
+
+The Coffee Chain ERP is designed to streamline operations across multiple outlets while ensuring efficiency, transparency, and growth. This manual documents the structure, functionality, and guiding principles of the ERP system built on the Odoo platform. It is intended for developers, managers, and users responsible for operating and expanding the coffee chain.
+
+The ERP integrates outlets, sales, CRM, and menu management into a single system. It provides performance metrics via sales reports, ensures role-based accountability, and allows modular expansion for future needs.
+
+\tableofcontents
+\clearpage
+
+% Chapters
+\input{chapters/philosophy}
+\input{chapters/framework}
+\input{chapters/context_department}
+\input{chapters/context_sipoc}
+\input{chapters/context_role_scope}
+\input{chapters/context_pain_gain}
+\input{chapters/components_containers}
+\input{chapters/components_integration}
+\input{chapters/concepts_documents}
+\input{chapters/workflow}
+\input{chapters/master_data}
+\input{chapters/access_control}
+\end{document}

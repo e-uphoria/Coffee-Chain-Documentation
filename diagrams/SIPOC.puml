@@ -1,0 +1,57 @@
+@startuml SIPOC_Diagram
+title Coffee Chain ERP - SIPOC Diagram
+
+!define RECTANGLE class
+skinparam rectangle {
+    BackgroundColor #ADD8E6
+    BorderColor #00008B
+    Shadowing true
+}
+
+RECTANGLE Suppliers {
+    - Outlet Managers
+    - Regional Managers
+    - Coffee Suppliers
+    - Menu Designers
+    - CRM Data Sources
+}
+
+RECTANGLE Inputs {
+    - Menu Items (Name, Price, Category)
+    - Customer Leads
+    - Sales Data
+    - Outlet Locations
+    - Stock Information
+}
+
+RECTANGLE Process {
+    - Create/Update Coffee Menu
+    - Track Sales per Outlet
+    - Manage CRM Leads
+    - Generate Performance Reports
+    - Sync Product with Sales Module
+}
+
+RECTANGLE Outputs {
+    - Updated Menu Catalog
+    - Sales Reports
+    - CRM Engagement Metrics
+    - Dashboard Insights
+    - Alerts for Seasonal Items
+}
+
+RECTANGLE Customers {
+    - Coffee Shop Managers
+    - Regional Managers
+    - Marketing Team
+    - Finance Team
+    - Customers (for accurate menu/pricing)
+}
+
+' Connect blocks with arrows
+Suppliers --> Inputs
+Inputs --> Process
+Process --> Outputs
+Outputs --> Customers
+
+@enduml
