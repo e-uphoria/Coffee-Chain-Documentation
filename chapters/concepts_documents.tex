@@ -1,95 +1,55 @@
 \chapter{Concepts \& Documentation}
 
-This chapter introduces the key concepts behind the Coffee Chain ERP system and details the important documents and records used in the workflow. Understanding these concepts is essential for grasping how the ERP operates and how data flows between modules.
+\section*{What is ERP?}
+Enterprise Resource Planning (ERP) is a system that integrates business functions into a unified platform. In the Coffee Chain ERP, ERP connects menu management, sales, customer tracking, and outlet operations to reduce redundancy and increase efficiency.
+
+\section*{ERP Integration in the Coffee Chain}
+Data flows seamlessly across modules:
+\begin{itemize}
+    \item A sale connects menu items, customers, and outlet records automatically.  
+    \item Menu updates reflect immediately in sales transactions.  
+    \item Customers are linked with sales orders for record-keeping and CRM purposes.
+\end{itemize}
 
 \section*{Key Concepts}
 
-\subsection*{1. ERP System Integration}
-The Coffee Chain ERP is designed as an integrated platform combining multiple business functions—outlet management, sales, menu management, and CRM. Integration ensures that updates in one module automatically propagate to others, reducing manual work and errors.  
-
-\textbf{Example:} Updating a menu item in the Menu module automatically updates the Sales module, ensuring that employees sell the correct items with accurate pricing.
-
-\subsection*{2. Module-Based Architecture}
-The ERP is organized into distinct modules (containers) and components:
-
+\subsection*{Coffee Menu Items}
 \begin{itemize}
-    \item \textbf{Outlet Management:} Stores information about each coffee outlet, including name, location, manager, and regional manager.
-    \item \textbf{Sales Module:} Handles transactions, product linking, and performance reporting.
-    \item \textbf{Menu Module:} Manages products, categories, and pricing, linking to the Sales module.
-    \item \textbf{CRM Module:} Tracks customer leads, interactions, and engagement metrics.
-    \item \textbf{Reporting \& Analytics:} Consolidates data from all modules for dashboards and decision support.
+    \item Name, price, category, description, and status (draft, active, seasonal, retired).  
+    \item Customization options: milk type, size, syrup flavor, extra shot.  
+    \item Linked to Odoo products to integrate with sales.
 \end{itemize}
 
-\subsection*{3. Workflow Concepts}
+\subsection*{Outlets}
 \begin{itemize}
-    \item \textbf{Transaction Flow:} From order placement to sales recording, each step is logged in the ERP for accuracy.
-    \item \textbf{Data Synchronization:} Changes in one module (e.g., menu updates) reflect immediately in dependent modules (e.g., sales).
-    \item \textbf{Decision Support:} Consolidated reports allow managers and regional managers to track KPIs such as revenue, product sales, and lead conversion rates.
+    \item Stores outlet details, including name, manager, and location.  
+    \item Linked to sales orders to track which outlet processed each sale.  
+    \item Managers oversee staff and validate transactions.
 \end{itemize}
 
-\subsection*{4. User Roles and Responsibilities}
+\subsection*{Customers and Sales Orders}
 \begin{itemize}
-    \item \textbf{Outlet Managers:} Manage outlet operations and ensure accurate data entry.
-    \item \textbf{Regional Managers:} Compare performance across outlets and make strategic decisions.
-    \item \textbf{Employees:} Enter sales and product information accurately.
-    \item \textbf{Customers:} Interact with the system via orders; indirectly feed CRM data.
+    \item Customers are tracked in the CRM and linked to sales orders.  
+    \item Sales orders record menu items sold, outlet, customer, payment, and timestamp.  
+    \item Acts as the central point connecting menu items, outlets, and customers.
 \end{itemize}
 
-\subsection*{5. Concept of Containers and Components}
-In this ERP context:
+\section*{Important Documents in the Workflow}
 \begin{itemize}
-    \item A \textbf{Container} represents a high-level module such as Sales, CRM, or Menu.
-    \item A \textbf{Component} is a sub-part of a container that executes a specific function, e.g., the \emph{Transaction Processing Component} in Sales.
+    \item \textbf{Menu Master List:} Stores all coffee items with categories, prices, and customization options. Serves as the single reference for all outlets.  
+    \item \textbf{Sales Records:} Include transaction ID, menu items sold, outlet, customer, and payment details.  
+    \item \textbf{Customer Records:} Store contact details and link to sales orders.  
+    \item \textbf{Outlet Data Sheets:} Maintain outlet name, location, and manager information.
 \end{itemize}
 
-\section*{Documents in the Workflow}
-
-\subsection*{1. Sales Records}
+\section*{Module-Document Integration}
 \begin{itemize}
-    \item Captured automatically by the Sales module.
-    \item Includes transaction ID, product sold, quantity, price, payment method, and timestamp.
-    \item Serves as the basis for financial reports and performance analytics.
+    \item Sales orders link menu items to the outlet and customer.  
+    \item Menu master list ensures all outlets use consistent item data.  
+    \item Customer records are connected to sales orders for traceability.
 \end{itemize}
 
-\subsection*{2. Menu Master List}
-\begin{itemize}
-    \item Contains all products, categories, and pricing information.
-    \item Maintained in the Menu module; synchronized with Sales.
-    \item Provides consistency in product offerings across outlets.
-\end{itemize}
-
-\subsection*{3. Customer \& Lead Records}
-\begin{itemize}
-    \item Captured by the CRM module.
-    \item Includes lead source, customer information, interaction logs, and engagement metrics.
-    \item Used for marketing, promotions, and improving customer relationships.
-\end{itemize}
-
-\subsection*{4. Outlet Data Sheets}
-\begin{itemize}
-    \item Contains outlet details: name, location, manager, regional manager.
-    \item Maintained in the Outlet Management module.
-    \item Supports reporting and operational oversight.
-\end{itemize}
-
-\subsection*{5. Reports and Dashboards}
-\begin{itemize}
-    \item Generated by the Reporting \& Analytics module.
-    \item Summarizes sales, outlet performance, and customer engagement.
-    \item Provides actionable insights for decision-making.
-\end{itemize}
-
-\section*{Integration of Documents with Modules}
-
-\begin{itemize}
-    \item Sales records are linked to menu items and CRM leads.
-    \item Customer engagement documents feed into reporting dashboards.
-    \item Outlet data is referenced for KPI calculation and performance benchmarking.
-\end{itemize}
-
-\section*{Code and Diagram Integration}
-
-\begin{lstlisting}[language=Python, caption={Example: Sales Transaction Recording in Python}]
+\begin{lstlisting}[language=Python, caption={Example: Linking Outlet and Customer in Sales Order}]
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
@@ -100,14 +60,13 @@ class SaleOrder(models.Model):
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth,keepaspectratio]{diagrams/C2.png}
-\caption{Reference Container Diagram for Document Flow}
+\caption{Reference Container Diagram for Module and Document Flow}
 \end{figure}
 
 \section*{Insights}
-
 \begin{itemize}
-    \item Centralizing document management reduces errors and ensures data consistency.
-    \item Clear linkage between documents and modules enhances traceability and decision-making.
-    \item Automated capture of sales, menu, and customer data minimizes manual intervention.
-    \item Reporting dashboards serve as the single source of truth for management insights.
+    \item The ERP system connects menu, outlets, customers, and sales orders for seamless operations.  
+    \item Centralized documentation ensures consistency across outlets.  
+    \item Accurate records of menu items, outlets, and sales orders are essential for reliable operations.  
+    \item Maintaining a single source of truth for menu items, outlets, and customers simplifies management and improves traceability.
 \end{itemize}
