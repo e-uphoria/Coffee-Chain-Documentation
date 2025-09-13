@@ -5,7 +5,7 @@
 \usepackage{titlesec}
 \usepackage{amsmath, amssymb}
 \usepackage{enumitem}
-\usepackage{color}
+\usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{caption}
 \usepackage{float}
@@ -18,63 +18,170 @@
 \usepackage{lipsum}
 \usepackage{wrapfig}
 \usepackage{tabularx}
+\usepackage{tocloft}
+\usepackage{setspace}
+\usepackage{etoolbox}
+\usepackage{sectsty}
 
-% Configure header
+% ---------------------------
+% Odoo purple color
+% ---------------------------
+\definecolor{odooPurple}{RGB}{114,0,153}
+
+% ---------------------------
+% Header & footer
+% ---------------------------
 \fancypagestyle{plain}{
   \fancyhf{}
   \fancyfoot[C]{\thepage}
   \renewcommand{\headrulewidth}{0pt}
 }
 
-% Customize sections
-\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter.}{2pc}{}
-\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
-\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+% ---------------------------
+% Chapter / Section Styling
+% ---------------------------
+% Chapter title in purple with horizontal line
+\titleformat{\chapter}[display]
+  {\Huge\bfseries\color{odooPurple}}
+  {\filleft\Huge\chaptertitlename~\thechapter}
+  {1ex}
+  {\filleft\color{odooPurple}}
+  [\vspace{1ex}\color{odooPurple}\titlerule]
 
+% Sections in actual chapters: purple bold
+\titleformat{\section}{\Large\bfseries\color{odooPurple}}{\thesection}{1em}{}
+
+% Subsections always black
+\titleformat{\subsection}{\large\bfseries\color{black}}{\thesubsection}{1em}{}
+
+% ---------------------------
+% Body text in black
+% ---------------------------
+\color{black}
+
+% ---------------------------
 % Hyperref colors
+% ---------------------------
 \hypersetup{
     colorlinks=true,
-    linkcolor=black,
-    urlcolor=blue,
-    citecolor=blue
+    linkcolor=black, % TOC links color
+    urlcolor=odooPurple,
+    citecolor=odooPurple
 }
 
+% ---------------------------
+% TOC styling
+% ---------------------------
+\setcounter{tocdepth}{2} % include sections
+
+% Contents title: right-aligned, purple, horizontal line below
+\renewcommand{\contentsname}{%
+  \noindent\makebox[\textwidth][r]{\Huge\bfseries\color{odooPurple}Contents}%
+}
+\renewcommand{\cftaftertoctitle}{%
+  \vspace{1em} % space below title
+  \noindent\color{odooPurple}\rule{\textwidth}{1.5pt}\vspace{1em} % full-width line
+}
+
+% TOC entries
+\renewcommand{\cftchapfont}{\bfseries\color{odooPurple}}      % chapters purple bold
+\renewcommand{\cftchappagefont}{\bfseries\color{odooPurple}}  % chapter page numbers purple bold
+\renewcommand{\cftsecfont}{\color{black}}                     % sections black normal
+\renewcommand{\cftsecpagefont}{\color{black}}                 % section page numbers black normal
+\renewcommand{\cftsecaftersnum}{.}                             % adds dot after section number
+
+% Patch \tableofcontents to temporarily make sections black
+\preto{\tableofcontents}{%
+    \titleformat{\section}{\Large\bfseries\color{black}}{\thesection}{1em}{}%
+}
+\apptocmd{\tableofcontents}{%
+    \titleformat{\section}{\Large\bfseries\color{odooPurple}}{\thesection}{1em}{}%
+}{}{}
+
+% ---------------------------
 % Title page details
+% ---------------------------
 \title{
-    \textbf{\Huge Coffee Chain ERP Manual} \\
-    \Large \textit{Managing Outlets, Sales, CRM, and Menu Items with Odoo}
+    \vspace*{2cm}
+    \Huge\bfseries Coffee Chain ERP Manual\\[0.5cm]
+    \LARGE\itshape Managing Outlets, Sales, CRM, and Menu Items with Odoo
 }
 \author{
-    \large Author: Nush Ojha
+    \large Author: Ravi Bhattarai\\[0.3cm]
+    \large Co-Author: Nush Ojha
 }
-\date{}
+\date{\today}
 
+% ---------------------------
+% Part styling
+% ---------------------------
+\newcommand{\partpage}[1]{
+    \clearpage
+    \thispagestyle{empty}
+    \vspace*{5cm}
+    \begin{center}
+        {\Huge\bfseries\color{odooPurple} #1\par}
+    \end{center}
+    \clearpage
+}
+
+% ---------------------------
+% Document begins
+% ---------------------------
 \begin{document}
 
-\maketitle
+% ---------------------------
+% Title page
+% ---------------------------
+\begin{titlepage}
+    \centering
+    \color{black} % All black on title page
+    {\Huge\bfseries Coffee Chain ERP Manual\par}
+    \vspace{1cm}
+    {\LARGE\itshape Managing Outlets, Sales, CRM, and Menu Items with Odoo\par}
+    \vspace{3cm}
+    {\large Author: Ravi Bhattarai\par}
+    \vspace{0.3cm}
+    {\large Co-Author: Nush Ojha\par}
+    \vfill
+    {\large \today\par}
+\end{titlepage}
 
-\newpage
-
+% ---------------------------
+% Preface
+% ---------------------------
 \chapter*{Preface}
-
+\onehalfspacing
+\color{black}
 The Coffee Chain ERP is designed to streamline operations across multiple outlets while ensuring efficiency, transparency, and growth. This manual documents the structure, functionality, and guiding principles of the ERP system built on the Odoo platform. It is intended for developers, managers, and users responsible for operating and expanding the coffee chain.
 
 The ERP integrates outlets, sales, CRM, and menu management into a single system. It provides performance metrics via sales reports, ensures role-based accountability, and allows modular expansion for future needs.
 
+\newpage
+
+% ---------------------------
+% Table of Contents
+% ---------------------------
 \tableofcontents
 \clearpage
 
-% Chapters
-\input{chapters/philosophy}
-\input{chapters/framework}
-\input{chapters/context_department}
-\input{chapters/context_sipoc}
-\input{chapters/context_role_scope}
-\input{chapters/context_pain_gain}
-\input{chapters/components_containers}
-\input{chapters/components_integration}
-\input{chapters/concepts_documents}
-\input{chapters/workflow}
-\input{chapters/master_data}
-\input{chapters/access_control}
+% ---------------------------
+% Part I: Strategic Foundation
+% ---------------------------
+\partpage{Part I: The Strategic Foundation}
+\input{chapters/chapter1} % Chapter 1
+\input{chapters/chapter2} % Chapter 2
+
+% ---------------------------
+% Part II: Architectural and Conceptual Framework
+% ---------------------------
+\partpage{Part II: Architectural and Conceptual Framework}
+\input{chapters/components_containers}   % Chapter 3
+\input{chapters/components_integration}  % Chapter 4
+\input{chapters/concepts_documents}      % Chapter 5
+\input{chapters/workflow}                % Chapter 6
+\input{chapters/configuration_business}  % Chapter 7
+\input{chapters/master_data}             % Chapter 8
+\input{chapters/access_control}          % Chapter 9
+
 \end{document}
